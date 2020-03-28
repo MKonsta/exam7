@@ -5,6 +5,7 @@ package com.example.exam.util;
 //import com.example.hw54.service.EventService;
 //import com.example.hw54.service.SubscriptionService;
 //import com.example.hw54.service.UserService;
+import com.example.exam.SecurityConfig;
 import com.example.exam.model.Food;
 import com.example.exam.model.Order;
 import com.example.exam.model.Person;
@@ -53,9 +54,9 @@ public class PreloadDB {
         placeService.deleteAll();
         orderService.deleteAll();
 
-        personService.addPerson(new Person("Fedor", "admin", "1"));
+        personService.addPerson(new Person("Fedor", "admin", new SecurityConfig().encoder().encode("1")));
         for (int i = 0; i < 300; i++) {
-            personService.addPerson(new Person(GenerateData.randomPersonName(), GenerateData.randomEmail(), "123"));
+            personService.addPerson(new Person(GenerateData.randomPersonName(), GenerateData.randomEmail(), new SecurityConfig().encoder().encode("123")));
         }
 
         for (int i = 0; i < 50; i++) {
