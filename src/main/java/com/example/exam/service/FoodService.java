@@ -5,6 +5,7 @@ import com.example.exam.repository.FoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,6 +41,16 @@ public class FoodService {
 
     public Food getById(String foodId) {
         return foodRepository.findById(foodId).orElse(null);
+    }
+
+    public List<Food> findAllById(List<String> foodIds) {
+        List<Food> result = new ArrayList<>();
+
+        for (String id : foodIds) {
+            result.add(getById(id));
+        }
+
+        return result;
     }
 
 }
