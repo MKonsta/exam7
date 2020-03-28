@@ -45,4 +45,8 @@ public class PersonService {
     public List<Person> findAll() {
         return personRepository.findAll();
     }
+
+    public Person getByEmail(String email) {
+        return personRepository.findByEmail(email);
+    }
 }

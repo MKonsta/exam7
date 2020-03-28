@@ -28,4 +28,18 @@ public class FoodService {
     public List<Food> getAll() {
         return foodRepository.findAll();
     }
+
+    public Food deleteById(String foodId) {
+        if (foodRepository.existsById(foodId)) {
+            Food food = foodRepository.findById(foodId).get();
+            foodRepository.deleteById(foodId);
+            return food;
+        }
+        return null;
+    }
+
+    public Food getById(String foodId) {
+        return foodRepository.findById(foodId).orElse(null);
+    }
+
 }
