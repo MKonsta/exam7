@@ -1,26 +1,24 @@
-package com.example.exam.model;
+package com.example.exam.dto;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Data
-@Document(collection = "persons")
-public class Person {
 
-    @Id
+public class PersonDTO {
+
     private String id;
     private String name;
     private String email;
     private String password;
 
-    public Person(String name, String email, String password) {
+    public PersonDTO(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
     }
 
-    public Person() {
+    public PersonDTO() {
     }
 
     public String getId() {

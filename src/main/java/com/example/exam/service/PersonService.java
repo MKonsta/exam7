@@ -18,7 +18,11 @@ public class PersonService {
     }
 
     public Person addPerson(Person person) {
-        return personRepository.save(person);
+        if (!personRepository.existsByEmail(person.getEmail())) {
+
+            return personRepository.save(person);
+        }
+        return null;
     }
 
     public void deleteAll() {
@@ -26,6 +30,19 @@ public class PersonService {
     }
 
     public List<Person> getAll() {
+        return personRepository.findAll();
+    }
+
+    public Person deleteByEmail(String email) {
+        if (personRepository.existsByEmail(email)) {
+            Person person = personRepository.findByEmail(email);
+            personRepository.deleteByEmail(email);
+            return person;
+        }
+        return null;
+    }
+
+    public List<Person> findAll() {
         return personRepository.findAll();
     }
 }
