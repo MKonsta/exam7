@@ -5,7 +5,6 @@ package com.example.exam.util;
 //import com.example.hw54.service.EventService;
 //import com.example.hw54.service.SubscriptionService;
 //import com.example.hw54.service.UserService;
-import com.example.exam.data.GenerateData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +31,10 @@ public class PreloadDB {
     @Bean
     public void initDB() {
 
+        System.out.println(GenerateData.randomEmail());
+        System.out.println(GenerateData.randomPersonName());
+        System.out.println(GenerateData.randomDish());
+        System.out.println(GenerateData.randomPlace());
 
 
 

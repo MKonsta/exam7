@@ -1,4 +1,4 @@
-package com.example.exam.data;
+package com.example.exam.util;
 
 import lombok.AccessLevel;
 import lombok.Builder;
