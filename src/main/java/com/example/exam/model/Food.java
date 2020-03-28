@@ -13,8 +13,17 @@ public class Food {
     @Id
     private String id;
     private String name;
-    private Enum<FoodType> type;
+    private String type;
     private int price;
+
+    public Food(String name, String type, int price) {
+        this.name = name;
+        this.type = type;
+        this.price = price;
+    }
+
+    public Food() {
+    }
 
     public String getId() {
         return id;
@@ -32,11 +41,11 @@ public class Food {
         this.name = name;
     }
 
-    public Enum<FoodType> getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Enum<FoodType> type) {
+    public void setType(String type) {
         this.type = type;
     }
 

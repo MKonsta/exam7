@@ -22,6 +22,14 @@ public final class GenerateData {
     public static class DishName {
         public String type;
         public String name;
+
+        public String getType() {
+            return type;
+        }
+
+        public String getName() {
+            return name;
+        }
     }
 
     @Data
@@ -29,6 +37,22 @@ public final class GenerateData {
     public static class PlaceName {
         public String description;
         public String name;
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 
     private static final Random r = new Random();
@@ -45,7 +69,7 @@ public final class GenerateData {
     }
 
     public static String randomEmail() {
-        return randomPersonName() + "@" + domains.get(r.nextInt(domains.size()));
+        return randomPersonName().replaceAll("\\s+","") /*+ "@"*/ + domains.get(r.nextInt(domains.size()));
     }
 
     public static String randomPersonName() {

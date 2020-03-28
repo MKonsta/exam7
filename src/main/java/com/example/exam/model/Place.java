@@ -16,6 +16,15 @@ public class Place {
     private String description;
     private List<String> foods;
 
+    public Place(String name, String description, List<String> foods) {
+        this.name = name;
+        this.description = description;
+        this.foods = foods;
+    }
+
+    public Place() {
+    }
+
     public String getId() {
         return id;
     }

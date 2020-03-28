@@ -5,6 +5,14 @@ package com.example.exam.util;
 //import com.example.hw54.service.EventService;
 //import com.example.hw54.service.SubscriptionService;
 //import com.example.hw54.service.UserService;
+import com.example.exam.model.Food;
+import com.example.exam.model.Order;
+import com.example.exam.model.Person;
+import com.example.exam.model.Place;
+import com.example.exam.service.FoodService;
+import com.example.exam.service.OrderService;
+import com.example.exam.service.PersonService;
+import com.example.exam.service.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,83 +21,70 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Configuration
 public class PreloadDB {
 
-//    private UserService userService;
-//    private EventService eventService;
-//    private SubscriptionService subscriptionService;
+    private PersonService personService;
+    private FoodService foodService;
+    private PlaceService placeService;
+    private OrderService orderService;
 
-//    @Autowired
-//    public PreloadDB(UserService userService, EventService eventService, SubscriptionService subscriptionService) {
-//        this.userService = userService;
-//        this.eventService = eventService;
-//        this.subscriptionService = subscriptionService;
-//    }
+    private Random random = new Random();
+
+    @Autowired
+    public PreloadDB(PersonService personService,
+                     FoodService foodService,
+                     PlaceService placeService,
+                     OrderService orderService) {
+        this.personService = personService;
+        this.foodService = foodService;
+        this.placeService = placeService;
+        this.orderService = orderService;
+    }
 
     @Bean
     public void initDB() {
 
-        System.out.println(GenerateData.randomEmail());
-        System.out.println(GenerateData.randomPersonName());
-        System.out.println(GenerateData.randomDish());
-        System.out.println(GenerateData.randomPlace());
+        personService.deleteAll();
+        foodService.deleteAll();
+        placeService.deleteAll();
+        orderService.deleteAll();
 
+        for (int i = 0; i < 300; i++) {
+            personService.addPerson(new Person(GenerateData.randomPersonName(), GenerateData.randomEmail()));
+        }
 
+        for (int i = 0; i < 50; i++) {
+            GenerateData.DishName dishName = GenerateData.randomDish();
+            foodService.addFood(new Food(dishName.getName(), dishName.getType(), random.nextInt(1000) + 20));
+        }
 
-//        userService.addAll(createUsers());
-//        eventService.addAll(createEvents());
+        List<String> foodIds = foodService.getAll().stream().map(Food::getId).collect(Collectors.toList());
+
+        int start = 0;
+        int finish = 5;
+
+        for (int i = 0; i < 5; i++) {
+            GenerateData.PlaceName placeName = GenerateData.randomPlace();
+            List<String> foods = new ArrayList<>();
+            for (int j = start; j < finish; j++) {
+                foods.add(foodIds.get(j));
+            }
+            placeService.addPlace(new Place(placeName.getName(), placeName.getDescription(), foods));
+            start = start + 5;
+            finish = finish + 5;
+        }
+
+        List<Person> personList = personService.getAll();
+        for (int i = 0; i < 10; i++) {
+            String personEmail = personList.get(i).getEmail();
+            String foodId = foodIds.get(i);
+            orderService.addOrder(new Order(personEmail, foodId));
+        }
 
 
     }
-
-//    private List<User> createUsers() {
-//
-//        List<User> result = new ArrayList<>();
-//
-//        User user = new User();
-//        user.setName("Volodya");
-//        user.setEmail("voloha@mail.ru");
-//        result.add(user);
-//
-//        user = new User();
-//        user.setName("Andrey");
-//        user.setEmail("andy@mail.ru");
-//        result.add(user);
-//
-//        user = new User();
-//        user.setName("Semen");
-//        user.setEmail("sema@mail.ru");
-//        result.add(user);
-//
-//        return result;
-//    }
-//
-//    private List<Event> createEvents() {
-//
-//        List<Event> result = new ArrayList<>();
-//
-//        Event event = new Event();
-//        event.setName("Vistovka");
-//        event.setDescription("Vsemirnaya Vistovka koshek");
-//        event.setDate(LocalDateTime.of(2020, Month.MAY, 8, 13, 0));
-//        result.add(event);
-//
-//        event = new Event();
-//        event.setName("Pohod v gori");
-//        event.setDescription("Idem na hijinu Raceka");
-//        event.setDate(LocalDateTime.of(2020, Month.JUNE, 15, 7, 0));
-//        result.add(event);
-//
-//        event = new Event();
-//        event.setName("Issik-Kul");
-//        event.setDescription("Edem na issik-kul v 4olpon-atu");
-//        event.setDate(LocalDateTime.of(2020, Month.JULY, 1, 5, 0));
-//        result.add(event);
-//
-//        return result;
-//    }
-
-
 }

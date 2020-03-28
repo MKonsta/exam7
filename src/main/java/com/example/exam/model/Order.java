@@ -13,8 +13,16 @@ public class Order {
     @Id
     private String id;
     private String personEmail;
-    private String foodName;
+    private String foodId;
     private LocalDateTime date;
+
+    public Order(String personEmail, String foodId) {
+        this.personEmail = personEmail;
+        this.foodId = foodId;
+    }
+
+    public Order() {
+    }
 
     public String getId() {
         return id;
@@ -32,12 +40,12 @@ public class Order {
         this.personEmail = personEmail;
     }
 
-    public String getFoodName() {
-        return foodName;
+    public String getFoodId() {
+        return foodId;
     }
 
-    public void setFoodName(String foodName) {
-        this.foodName = foodName;
+    public void setFoodId(String foodId) {
+        this.foodId = foodId;
     }
 
     public LocalDateTime getDate() {
